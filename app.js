@@ -1,27 +1,31 @@
-var express = require('express');
-var app = express();
-var bodyParser = require('body-parser');
-app.use(express.static(__dirname + '/views'));
-app.use(bodyParser.urlencoded({
-    limit: '50mb',
-    extended: true
-}));
-app.use(bodyParser.json({
-    limit: '50mb'
-}));
+'use strict';
 
-var port = process.env.PORT || 8085;
+const express = require('express');
+const socketIO = require('socket.io');
 
-var router = express.Router();
-router.use(function (req, res, next) {
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-    next();
+const PORT = process.env.PORT || 3000;
+const INDEX = 'views/index.html';
+
+const app = express()
+  .use(express.static(__dirname + '/views'))
+  .listen(PORT, () => console.log(`Listening on ${PORT}`));
+
+const io = socketIO(app);
+
+io.on('connection', (socket) => {
+  console.log('Client connected');
+
+  socket.on('disconnect', () => {
+    console.log('Client disconnected')
+  });
+
+  socket.on("playerconnect", (arg, callback) => {
+      console.log(arg);
+  });
+
 });
-var socket = require('./app/utill/socket_io');
 
-const server = app.listen(port, () => {
-    console.log('listening on *: ' + port);
-});
 
-console.log('Magic happens on port ' + port);
+
+setInterval(() => io.emit('time', new Date().toTimeString()), 1000);
+

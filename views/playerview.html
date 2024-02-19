@@ -8,11 +8,23 @@
         <meta name="author" content="" />
         <title>Login - SB Admin</title>
         <link href="css/styles.css" rel="stylesheet" />
-        <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
-        <script src="https://unpkg.com/mqtt/dist/mqtt.min.js"></script>
-        <script src="js/homectrl.js"></script>
+        <!-- <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script> -->
+        <!-- <script src="https://unpkg.com/mqtt/dist/mqtt.min.js"></script> -->
+        <!-- <script src="assets/lib/socket-io/socket.io.js"></script> -->
+        <script src="../socket.io/socket.io.js"></script>
+        <script src="js/playerviewctrl.js"></script>
+        <!-- <script>
+          let socket = io();
+          let el;
+    
+          socket.on('time', (timeString) => {
+            el = document.getElementById('server-time');
+            el.innerHTML = 'Server time: ' + timeString;
+          });
+        </script> -->
+        
     </head>
-    <body class="bg-primary">
+    <body class="bg-primary" onload="initializeView()">
         <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
             <!-- Navbar Brand-->
             <a class="navbar-brand ps-3" href="index.html">Player View</a>
@@ -24,11 +36,11 @@
                     <div class="card-body">
                     <img src="assets/img/qr_code.png" class="card-img-top">
                     <div class="mb-3">
-                        <label for="exampleFormControlInput1" class="form-label">Player Name</label>
-                        <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="Player Name">
+                        <label for="playerNameInput" class="form-label">Player Name</label>
+                        <input type="email" class="form-control" id="playerNameInput" placeholder="Player Name">
                       </div>
                       <div class="d-grid gap-2">
-                        <button class="btn btn-primary" type="button">Button</button>
+                        <button class="btn btn-primary" type="button" id="playerbtn" onclick="onPlayerNameSubmit()">Button</button>
                       </div>
                     </div>
                   </div>
